@@ -1,8 +1,10 @@
 #!/bin/bash
 #
-# Display the parent process tree for a given process
+# Check for processes accessing the Packet Socket.
+# If a process exists get it's parent process tree
 # in a single line
-
+#
+# For use with OSSEC.
 
 pidtree () {
   M_PPID=$1
@@ -16,7 +18,7 @@ pidtree () {
       PID_INFO=(${WPID_INFO})
       # set to parent pid for next loop.
       M_PPID="${PID_INFO[1]}"
-      PROC_LIST[${COUNT}]="${PID_INFO[3]},${PID_INFO[0]},${PID_INFO[2]}"
+      PROC_LIST[${COUNT}]="${PID_INFO[@]:3:${#PID_INFO[@]}},${PID_INFO[0]},${PID_INFO[2]}"
       let COUNT=$COUNT+1
     done
 
@@ -37,4 +39,10 @@ pidtree () {
   fi
 }
 
-pidtree $1
+# check for process accessing the packet socket
+PID=$(sudo ss --packet -apn | grep users: | cut -d, -f2 )
+if [ -n "$PID" ]; then
+  PTREE="$(pidtree ${PID})"
+  DATE_TIME="$(date +"%Y-%m-%d %H:%M:%S %z")"
+  echo "${DATE_TIME}: PACKET SOCKET ALERT: ${PTREE}"
+fi
