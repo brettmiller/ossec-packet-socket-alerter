@@ -44,5 +44,5 @@ PID=$(sudo ss --packet -apn | grep users: | cut -d, -f2 )
 if [ -n "$PID" ]; then
   PTREE="$(pidtree ${PID})"
   DATE_TIME="$(date +"%Y-%m-%d %H:%M:%S %z")"
-  echo "${DATE_TIME}: PACKET SOCKET ALERT: ${PTREE}"
+  echo "${DATE_TIME} $(hostname -s) PACKET SOCKET ALERT: ${PTREE}"
 fi
