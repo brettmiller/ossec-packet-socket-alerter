@@ -1,10 +1,3 @@
 <decoder name="packet_socket_alerter">
   <program_name>PACKET_SOCKET_ALERTER</program_name>
 </decoder>
-
-
-<decoder name="packet_socket_alert">
-  <parent>packet_socket_alerter</parent>
-  <regex offset="after_parent">^[(\d+)]: (\.+)$</regex>
-  <order>processid,process_tree</order>
-</decoder>
