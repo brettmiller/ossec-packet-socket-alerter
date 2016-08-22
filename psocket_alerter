@@ -6,6 +6,10 @@
 #
 # For use with OSSEC.
 
+# Pipe(|) separate list of commands that have a legitimate 
+# reason to access the Packet Socket.
+not_sniffers="dhclient|dhcpd"
+
 pidtree () {
   M_PPID=$1
     # make sure pid exists before getting parents
@@ -40,7 +44,7 @@ pidtree () {
 }
 
 # check for process accessing the packet socket
-PID=$(sudo ss --packet -apn | grep users: | cut -d, -f2 )
+PID=$(sudo ss --packet -apn | grep users: | egrep -v "${not_sniffers}" | cut -d, -f2 )
 if [ -n "$PID" ]; then
   PTREE="$(pidtree ${PID})"
   DATE_TIME="$(date +"%Y-%m-%dT%H:%M:%S%:z")"
