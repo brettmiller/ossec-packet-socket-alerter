@@ -1,6 +1,7 @@
 <group name="packet_socket_alerter">
   <rule id="500001" level="12">
-    <decoded_as>packet_socket_alerter</decoded_as>
+    <if_sid>530</if_sid>
+    <match>^ossec: output: 'psocket_alerter': </match>
     <options>alert_by_email</options>
     <description>Packet Socket Alert - possible sniffer!</description>
   </rule>
