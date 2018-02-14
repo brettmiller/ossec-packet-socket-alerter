@@ -8,7 +8,7 @@
 
 # Pipe(|) separate list of commands that have a legitimate 
 # reason to access the Packet Socket.
-not_sniffers="dhclient|dhcpd"
+not_sniffers="dhclient|dhcpd|lldpad"
 
 pidtree () {
   M_PPID=$1
